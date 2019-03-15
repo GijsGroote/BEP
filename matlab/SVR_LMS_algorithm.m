@@ -31,7 +31,6 @@ for t = 1:t_end
     
     % single value decomposition of X
     [U,S,V] = svd(X); % TODO: is V transposed?
-   
     
     % update X
     % 0. is the hadmard product
