@@ -18,8 +18,8 @@ X = M*J; % TODO check if this is the cross product
 % Matrix X which is an reconstruction of omega using the 
 %(Single Value Regularize - Least Mean Square) SVR-LMS algorithm. 
 
-
-% constants 
+dsfasd
+% constants fea
 lambda = 1;     % TODO explain what the constants do
 mu = 2;
 t_end = 1;
