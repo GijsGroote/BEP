@@ -40,6 +40,7 @@ firstFrame = readFrame(videoObj);
 % pixels for every time step
 
 % reconstruct
-[result] = SVRLMS(firstFrame, faultyVideo, J, 1, 2);
+   addpath('./videoReconstructors');
+[result] = SVR_LMS(firstFrame, faultyVideo, J, 1, 2);
 
 % save reconstructed video
