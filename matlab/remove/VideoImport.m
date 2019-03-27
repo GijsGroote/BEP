@@ -3,7 +3,7 @@ clear;
 clc;
 
 %% Import video and assign required information to variables
-v = VideoReader('../../doc/drDre.mp4');
+v = VideoReader('144pVideo.mp4');
 
 %get video Width and Height in amount of pixels
 vidWidth = v.Width; %Video Width
@@ -16,7 +16,7 @@ mov = struct('cdata',zeros(vidHeight,vidWidth,3,'uint8'),...
 
 %% Fill the mov structure with the imported frames
 k = 0;
-while k < hasFrame(v) %the amount of frames. Use hasFrame(v) to get all of the frames in the video
+while k < 1000 %the amount of frames. Use hasFrame(v) to get all of the frames in the video
     mov(k+1).cdata = readFrame(v);
     k = k+1;
 end
@@ -39,7 +39,7 @@ for i = 1:k
 end
 
 %% Save the video
-fv = VideoWriter('DrDreFaulty.avi', 'Uncompressed AVI'); %create a VideoWriter object with the desired name
+fv = VideoWriter('faultyVideo.avi', 'Uncompressed AVI'); %create a VideoWriter object with the desired name
 open(fv)
 writeVideo(fv,mov) %write the video the the newly created file
 close(fv)
