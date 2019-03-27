@@ -41,7 +41,7 @@ X(1).cdata = double(firstFrame);              % Setting the first frame of X to 
 %      
 %      % update next frame of X
 %      % .* is the hadmard product
-%      X(:,:,:,k+1) = X(:,:,:,k) + mu*J.*(M - X(:,:,:,k)) - mu*lambda*U*V;
+      X(:,:,:,k+1) = X(:,:,:,k) + mu*J.*(M - X(:,:,:,k)) - mu*lambda*U*V';
   end
  end
  

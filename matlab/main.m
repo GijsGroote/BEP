@@ -17,7 +17,7 @@ clc %clean up command window
 
 
 % import video
-videoPathAndFileName = fullfile('../doc', 'DrDre.mp4');
+videoPathAndFileName = fullfile('input', 'DrDre.mp4');
 videoObj = VideoReader(videoPathAndFileName);
 
 % take first frame
@@ -25,10 +25,10 @@ firstFrame = readFrame(videoObj);
 
 %display first frame
 
-% mov = struct('cdata',firstFrame, 'colormap',[]);
-% hf = figure;
-% set(hf,'position',[100 150 videoObj.Width videoObj.Height]);
-% movie(hf,mov,1,videoObj.FrameRate);
+ mov = struct('cdata',firstFrame, 'colormap',[]);
+ hf = figure;
+ set(hf,'position',[100 150 videoObj.Width videoObj.Height]);
+ movie(hf,mov,1,videoObj.FrameRate);
 
 % make video faulty
 % todo remove some percentage of pixels out of every frame from videoObj in
