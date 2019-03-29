@@ -15,9 +15,11 @@ function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, sele
 
 % TODO: uint-8 to doubles for faultyVideo and reconstructedframe
 
-k_end = hasFrame(faultyVideo);      % k_end should be the number of frames in the video
-[nRows,nColums] = size(faultyVideo);                                        % nRows is number of rows, nColumns is number of Columns
-reconstructedVideo = struct('frame', zeros(nRows, nColums, 3), 'double');   % Initializing the matrix reconstructedVideo,
+k_end = length(faultyVideo);         % k_end should be the number of frames in the video
+[nRows,nColumns] = size(faultyVideo); 
+
+% nRows is number of rows, nColumns is number of Columns
+reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3), 'double');   % Initializing the matrix reconstructedVideo,
 reconstructedVideo(1) = reconstructedFrame; 
 
 X(:,:,1) = firstFrame;              % Setting the first frame of X to M
@@ -30,7 +32,7 @@ for k = 1:k_end
     
     % delete last row       TODO: this does not workkkk
     V = V';
-    V((nColums+1):end,:) = [];
+    V((nColumns+1):end,:) = [];
     
     % update next frame of reconstructedVideo
     reconstructedVideo(k+1).frame(:, :, rgb) = reconstructedVideo(k).frame(:, :, rgb) + mu * selectionMatrix(:, :, k).*(faultyVideo(k).frame(:, :, rgb) - reconstructedVideo(k).frame(:, :, rgb)) - mu*lambda*U*V;
