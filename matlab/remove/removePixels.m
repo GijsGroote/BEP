@@ -62,7 +62,6 @@ toc
 %% show the faulty video in a figure
 % tic;
  hf = figure;
- set(hf,'position',[150 150 vidWidth vidHeight]);
-% 
+ set(hf,'position',[150 150 vidWidth vidHeight]); 
  movie(hf,mov,1,v.FrameRate);
 % toc
