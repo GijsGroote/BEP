@@ -29,7 +29,7 @@ for k = 1:f
        
     modified_frame = reshape(empty_frame,[vidHeight,vidWidth,3]);
     faultyVideo(k).frame = modified_frame;
-    
+
 end
 
 end
