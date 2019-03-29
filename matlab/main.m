@@ -10,6 +10,7 @@ clear
 clc 
 
 %% add paths to file 
+>>>>>>> master
 addpath('./frameReconstructors');
 addpath('./selectionMatrices');
 addpath('./videoDestroyers');
@@ -25,6 +26,23 @@ frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
 
 %% create selection matrix
+
+% delete later
+    numFrames = 0;
+    while hasFrame(videoObj)
+        readFrame(videoObj);
+        numFrames = numFrames + 1;
+    end
+    
+selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "1");
+
+
+%% Remove pixels from frames
+%  faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix)
+% has a error in videoDestroyer;
+
+%% Reconstruct first frame
+% reconstruct, for now use firstFrame
 % todo
 
 %% Remove pixels from frames
@@ -32,25 +50,4 @@ frameWidth = videoObj.Width;
 
 %% Reconstruct first frame
 % todo
-
-
-%% Reconstruct video
-
-% [reconstructedVideo] = SVR_LMS(firstFrame, faultyVideo, J, 1, 2);
-
-
-%% TODO see performance
-
-[faultyVideo, J] = removePixels('./input/DrDre.mp4', 0.5);
-
-
-
-% display first frame
- mov = struct('cdata',firstFrame, 'colormap',[]);
- hf = figure;
- set(hf,'position',[100 150 videoObj.Width videoObj.Height]);
- movie(hf,mov,1,videoObj.FrameRate);
-
-
-
 

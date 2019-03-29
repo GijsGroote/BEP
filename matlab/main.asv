@@ -10,6 +10,11 @@ clear
 clc 
 
 %% add path to file 
+addpath('./');
+addpath('./videoReconstructors');
+addpath('./videoReconstructors');
+addpath('./videoReconstructors');
+addpath('./videoReconstructors');
 addpath('./videoReconstructors');
 
 %% import video
@@ -21,6 +26,7 @@ frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
 
 %% create selection matrix
+selectionMatrix = selectionMatrix(frameHeight,frameWidth,frames,percentage,type);
 
 
 %% Remove pixels from frames
@@ -34,18 +40,11 @@ frameWidth = videoObj.Width;
 
 %% TODO see performance
 
-[faultyVideo, J] = removePixels('./input/DrDre.mp4', 0.5);
 
 
 
 
-
-
-% import video
-
-
-
-%display first frame
+% display first frame, old remove this later
  mov = struct('cdata',firstFrame, 'colormap',[]);
  hf = figure;
  set(hf,'position',[100 150 videoObj.Width videoObj.Height]);
