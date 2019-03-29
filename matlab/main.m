@@ -9,11 +9,15 @@
 clear
 clc 
 
-%% add path to file 
+%% add paths to file 
+addpath('./frameReconstructors');
+addpath('./selectionMatrices');
+addpath('./videoDestroyers');
 addpath('./videoReconstructors');
 
+
 %% import video
-videoObj = VideoReader('./input/DrDre.mp4');
+videoObj = VideoReader('./input/DrDre.mp4');    % test video
 
 % video meta data
 firstFrame = readFrame(videoObj);
@@ -21,11 +25,14 @@ frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
 
 %% create selection matrix
-
+% todo
 
 %% Remove pixels from frames
+% todo
 
 %% Reconstruct first frame
+% todo
+
 
 %% Reconstruct video
 
