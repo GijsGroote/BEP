@@ -10,9 +10,11 @@ clear
 clc 
 
 %% add path to file 
-addpath('./frameReconstructors');
-addpath('./selectionMatrices');
-addpath('./videoDestroyers');
+addpath('./');
+addpath('./videoReconstructors');
+addpath('./videoReconstructors');
+addpath('./videoReconstructors');
+addpath('./videoReconstructors');
 addpath('./videoReconstructors');
 
 %% import video
@@ -24,23 +26,12 @@ frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
 
 %% create selection matrix
-
-% delete later
-    numFrames = 0;
-    while hasFrame(videoObj)
-        readFrame(videoObj);
-        numFrames = numFrames + 1;
-    end
-    
-selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "1");
+selectionMatrix = selectionMatrix(frameHeight,frameWidth,frames,percentage,type);
 
 
 %% Remove pixels from frames
-%  faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix)
-% has a error in videoDestroyer;
 
 %% Reconstruct first frame
-% reconstruct, for now use firstFrame
 
 %% Reconstruct video
 
