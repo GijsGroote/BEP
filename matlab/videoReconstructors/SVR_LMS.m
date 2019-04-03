@@ -12,40 +12,35 @@ function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, sele
 % reconstructedVideo    which is the reconstruction of the faultyVideo
 
 % constants
-
-% TODO: uint-8 to doubles for faultyVideo and reconstructedframe
-
+%% setup
 k_end = length(faultyVideo);         % k_end should be the number of frames in the video
-[nRows,nColumns] = size(faultyVideo); 
-
-% nRows is number of rows, nColumns is number of Columns
-reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3), 'double');   % Initializing the matrix reconstructedVideo,
-reconstructedVideo(1) = reconstructedFrame; 
-
-X(:,:,1) = firstFrame;              % Setting the first frame of X to M
-
-% iterative SVR-LMS algorithm
+%This loop makes the imported datatype uint8 to double so calculation can
+%be made using svd()
 for k = 1:k_end
-    for rgb = 1 : 3 
-    % single value decomposition of reconstructedVideo
-    [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb));
+    faultyVideo(k).frame = im2double(faultyVideo(k).frame);
+end
+[nRows,nColumns] = size(faultyVideo(1).frame); 
+% nRows is number of rows, nColumns is number of Columns
+% we need this to get the correct shape for the V' matrix later
+
+reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3, 'double'));   % Initializing the matrix reconstructedVideo,
+reconstructedVideo(1).frame = im2double(reconstructedFrame); %reconstructedFrame is a uint8 data type
+%reconstructedVideo(k).frame(:,:,rgb) --> k is framenumber, (:,:,rgb) is the matrix for red(rgb=1), green(2) or blue(3) 
+%% iterative SVR-LMS algorithm
+for k = 1:k_end % k goes through the frame, progressing through time
     
-    % delete last row       TODO: this does not workkkk
-    V = V';
-    V((nColumns+1):end,:) = [];
+    for rgb = 1 : 3 %3 times because RGB has 3 colours
+    % single value decomposition of reconstructedVideo
+    [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb)); % Singular value decomposition for every color (and frame)
+    V = V'; %transpose V
+    V((nRows+1):end,:) = []; %match the rows of V' to the roes of U, so that these can be multiplied 
     
     % update next frame of reconstructedVideo
     reconstructedVideo(k+1).frame(:, :, rgb) = reconstructedVideo(k).frame(:, :, rgb) + mu * selectionMatrix(:, :, k).*(faultyVideo(k).frame(:, :, rgb) - reconstructedVideo(k).frame(:, :, rgb)) - mu*lambda*U*V;
-    
     end
+    reconstructedVideo(k).frame = im2uint8(reconstructedVideo(k).frame); %convert the double datatype back to uint8
 end
-
-% doubles to uint-8 pleasze
-
 end
-
-
-
 
 
 
