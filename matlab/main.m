@@ -10,7 +10,6 @@ clear
 clc 
 
 %% add paths to file 
->>>>>>> master
 addpath('./frameReconstructors');
 addpath('./selectionMatrices');
 addpath('./videoDestroyers');
@@ -19,6 +18,7 @@ addpath('./videoReconstructors');
 
 %% import video
 videoObj = VideoReader('./input/DrDre.mp4');    % test video
+
 
 % video meta data
 firstFrame = readFrame(videoObj);
@@ -38,12 +38,11 @@ selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "1")
 
 
 %% Remove pixels from frames
-%  faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix)
-% has a error in videoDestroyer;
+faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix, numFrames);
 
 %% Reconstruct first frame
-% reconstruct, for now use firstFrame
-% todo
+reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrix, 1, 6); 
+
 
 %% Remove pixels from frames
 % todo

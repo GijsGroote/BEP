@@ -9,16 +9,16 @@
 clear
 clc 
 
-%% add path to file 
-addpath('./');
-addpath('./videoReconstructors');
-addpath('./videoReconstructors');
-addpath('./videoReconstructors');
-addpath('./videoReconstructors');
+%% add paths to file 
+addpath('./frameReconstructors');
+addpath('./selectionMatrices');
+addpath('./videoDestroyers');
 addpath('./videoReconstructors');
 
+
 %% import video
-videoObj = VideoReader('./input/DrDre.mp4');
+videoObj = VideoReader('./input/DrDre.mp4');    % test video
+
 
 % video meta data
 firstFrame = readFrame(videoObj);
@@ -26,30 +26,27 @@ frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
 
 %% create selection matrix
-selectionMatrix = selectionMatrix(frameHeight,frameWidth,frames,percentage,type);
+
+% delete later
+    numFrames = 0;
+    while hasFrame(videoObj)
+        readFrame(videoObj);
+        numFrames = numFrames + 1;
+    end
+    
+selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "1");
 
 
 %% Remove pixels from frames
+faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix, numFrames);
 
 %% Reconstruct first frame
-
-%% Reconstruct video
-
-% [reconstructedVideo] = SVR_LMS(firstFrame, faultyVideo, J, 1, 2);
+reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrix, 1, 6); 
 
 
-%% TODO see performance
+%% Remove pixels from frames
+% todo
 
-
-
-
-
-% display first frame, old remove this later
- mov = struct('cdata',firstFrame, 'colormap',[]);
- hf = figure;
- set(hf,'position',[100 150 videoObj.Width videoObj.Height]);
- movie(hf,mov,1,videoObj.FrameRate);
-
-
-
+%% Reconstruct first frame
+% todo
 
