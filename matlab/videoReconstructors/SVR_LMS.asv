@@ -14,6 +14,8 @@ function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, sele
 % constants
 %% setup
 k_end = length(faultyVideo);         % k_end should be the number of frames in the video
+%This loop makes the imported datatype uint8 to double so calculation can
+%be made using svd()
 [nRows,nColumns] = size(faultyVideo(1).frame); 
 % nRows is number of rows, nColumns is number of Columns, used for
 % initializing the structs below
@@ -22,7 +24,7 @@ reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3, 'double'));   % I
 reconstructedVideo(1).frame = im2double(reconstructedFrame); %reconstructedFrame is a uint8 data type
 %reconstructedVideo(k).frame(:,:,rgb) --> k is framenumber, (:,:,rgb) is the matrix for red(rgb=1), green(2) or blue(3) 
 %% iterative SVR-LMS algorithm
-for k = 1:k_end % k goes through the frame, progressing through time
+for k = 1:20 % k goes through the frame, progressing through time
     
     %This makes the imported datatype uint8 to double so calculation can
     %be made using svd()
