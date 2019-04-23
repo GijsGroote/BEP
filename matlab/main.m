@@ -34,14 +34,14 @@ frameWidth = videoObj.Width;
         numFrames = numFrames + 1;
     end
     
-selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "1");
+selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "2");
 
 
 %% Remove pixels from frames
 faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix, numFrames);
 
 %% Reconstruct first frame
-reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrix, 1, 6); 
+reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrix, 2, 1); 
 
 
 %% Remove pixels from frames
