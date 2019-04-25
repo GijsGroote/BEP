@@ -14,7 +14,7 @@ function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, sele
 % constants
 %% setup
 k_end = length(faultyVideo);         % k_end should be the number of frames in the video
-[nRows,nColumns] = size(faultyVideo(1).frame); 
+[nRows,nColumns, dim] = size(faultyVideo(1).frame); 
 % nRows is number of rows, nColumns is number of Columns, used for
 % initializing the structs below
 
@@ -29,12 +29,12 @@ for k = 1:k_end % k goes through the frame, progressing through time
     faultyVideo(k).frame = im2double(faultyVideo(k).frame);
     
     for rgb = 1 : 3 %3 times because RGB has 3 colours
-    % single value decomposition of reconstructedVideo
-    [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb),'econ'); % Singular value decomposition for every color (and frame)
-    %'econ' produces an economy-size decomposition of m-by-n matrix A. Only the first m columns of V are computed, and S is m-by-m
+        % single value decomposition of reconstructedVideo
+        [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb),'econ'); % Singular value decomposition for every color (and frame)
+        %'econ' produces an economy-size decomposition of m-by-n matrix A. Only the first m columns of V are computed, and S is m-by-m
     
-    % update next frame of reconstructedVideo
-    reconstructedVideo(k+1).frame(:, :, rgb) = reconstructedVideo(k).frame(:, :, rgb) + mu * selectionMatrix(:, :, k).*(faultyVideo(k).frame(:, :, rgb) - reconstructedVideo(k).frame(:, :, rgb)) - mu*lambda*U*V';
+        % update next frame of reconstructedVideo
+        reconstructedVideo(k+1).frame(:, :, rgb) = reconstructedVideo(k).frame(:, :, rgb) + mu * selectionMatrix(:, :, k).*(faultyVideo(k).frame(:, :, rgb) - reconstructedVideo(k).frame(:, :, rgb)) - mu*lambda*U*V';
     end
     reconstructedVideo(k).frame = im2uint8(reconstructedVideo(k).frame); %convert the double datatype back to uint8
 end
