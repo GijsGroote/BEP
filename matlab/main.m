@@ -10,43 +10,38 @@ clear
 clc 
 
 %% add paths to file 
-addpath('./frameReconstructors');
 addpath('./selectionMatrices');
 addpath('./videoDestroyers');
 addpath('./videoReconstructors');
+addpath('./Performance');
 
 
 %% import video
 videoObj = VideoReader('./input/DrDre.mp4');    % test video
 
-
 % video meta data
-firstFrame = readFrame(videoObj);
 frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
 
-%% create selection matrix
+%% put the video into a struct
+originalVideo = struct('frame',zeros(frameHeight,frameWidth,3,'uint8'));
+numFrames = 0;
+while hasFrame(videoObj)
+     originalVideo(numFrames+1).frame = readFrame(videoObj);
+     numFrames = numFrames + 1;
+end
 
-% delete later
-    numFrames = 0;
-    while hasFrame(videoObj)
-        readFrame(videoObj);
-        numFrames = numFrames + 1;
-    end
-    
+ %% Define the first frame
+firstFrame = originalVideo(1).frame;
+
+%% create selection matrix
 selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "2");
 
-
 %% Remove pixels from frames
-faultyVideo = VideoDestroyer('./input/DrDre.mp4', selectionMatrix, numFrames);
+faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrix, numFrames);
 
-%% Reconstruct first frame
+%% Reconstruct Video frame
 reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrix, 2, 1); 
-
-
-%% Remove pixels from frames
-% todo
-
-%% Reconstruct first frame
-% todo
+%% Plot relative error for each frame
+relativeError = relativeError(originalVideo, reconstructedVideo);
 

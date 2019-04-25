@@ -1,4 +1,4 @@
-function [faultyVideo] = VideoDestroyer(path, selectionMatrix, numFrames)
+function [faultyVideo] = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrix, numFrames)
 % creates a video in which certain pixels are set to 0 (black), depending
 % on de selectionMatrix.
 
@@ -10,16 +10,16 @@ function [faultyVideo] = VideoDestroyer(path, selectionMatrix, numFrames)
 %nuframes           is the number of frames the video has
 size(selectionMatrix); %is this of any use?
 %% determining size of the frames and number of frames
-v = VideoReader(path);
+%v = VideoReader(path);
 
-vidHeight = v.Height;
-vidWidth = v.Width;
-amount_of_pixels = vidHeight*vidWidth;
+%vidHeight = v.Height;
+%vidWidth = v.Width;
+amount_of_pixels = frameHeight*frameWidth;
 
 %% creating the faulty video
-faultyVideo = struct('frame',zeros(vidHeight,vidWidth,3,'uint8')); %initializing the struct for faultyVideo
+faultyVideo = struct('frame',zeros(frameHeight,frameWidth,3,'uint8')); %initializing the struct for faultyVideo
 for k = 1:numFrames
-    faultyVideo(k).frame = readFrame(v);    %putting the videoframes into the struct
+    faultyVideo(k).frame = originalVideo(k).frame;    %putting the videoframes into the struct
     R = faultyVideo(k).frame(:,:,1);        %creating a matrix for R, G and B colours
     G = faultyVideo(k).frame(:,:,2);
     B = faultyVideo(k).frame(:,:,3);
@@ -33,7 +33,7 @@ for k = 1:numFrames
     empty_frame(J_indices,:,2) = G(J_indices);
     empty_frame(J_indices,:,3) = B(J_indices);
        
-    faultyVideo(k).frame = reshape(empty_frame,[vidHeight,vidWidth,3]); %reshape the column vector to a frame of the original size
+    faultyVideo(k).frame = reshape(empty_frame,[frameHeight,frameWidth,3]); %reshape the column vector to a frame of the original size
 end
 
 end
