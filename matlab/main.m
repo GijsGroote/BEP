@@ -17,7 +17,10 @@ addpath('./Performance');
 
 
 %% import video
-videoObj = VideoReader('./input/DrDre.mp4');    % test video
+% if the video cannot be found create a folder in the same folder as 'BEP'
+% called 'BEP_DATA'in 'BEP_DATA' create a folder 'input' (and also
+% 'output') input must contain DrDre.mp4, or the video which is the test video. 
+videoObj = VideoReader('../../BEP_DATA/input/DrDre.mp4');    % test video 
 
 % video meta data
 frameHeight = videoObj.Height;
