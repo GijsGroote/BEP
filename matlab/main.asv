@@ -1,8 +1,7 @@
-function [ reconstructedVideo, faultyVideo, selectionMatrixVar, relativeErrorVar] = main( videoName, percentage, destructionType, lambda, mu )
+function [ reconstructedVideo, relativeError ] = main( videoPath, percentage, destructionType, lambda, mu )
 %INPUT
 %videoPath          is the location of the video that is to be destroyed and
-%                   reconstructed, only takes the name, has to be in the
-%                   folder input
+%                   reconstructed
 %percentage         is the percentage of pixels that is to be destroyed
 %                   (number between 0 and 1)
 %destructionType   is an string that ("1","2","3","4") that determins the
@@ -13,9 +12,6 @@ function [ reconstructedVideo, faultyVideo, selectionMatrixVar, relativeErrorVar
 
 %OUTPUT
 %reconstructedVideo     is a struct of the reconstructed video (uint-8)
-%faultyVideo            is a struct of the observed video
-%selectionMatrixVar     is a 3D matrix of ones and zeros (height by width
-%                       by frames)
 %relativeError          is a vector with the releative error of the Frobian
 %                       norm per frame
 
@@ -25,7 +21,7 @@ function [ reconstructedVideo, faultyVideo, selectionMatrixVar, relativeErrorVar
 mydir  = pwd; %current path (where this file is saved)
 idcs   = strfind(mydir,filesep); %find the "\" folder seperator
 newdir = mydir(1:idcs(end-1)-1); % go 2 folders up
-inputVideoPath = strcat(newdir,'\BEP_DATA\input\',videoName); %path to the video
+addpath(strcat(newdir,'\BEP_DATA\input',));
 %addpath(strcat(newdir,'\BEP_DATA\observed')  %not needed (yet)
 %addpath(strcat(newdir,'\BEP_DATA\output')    %not needed (yet)
 
@@ -40,7 +36,7 @@ addpath('./Performance');
 % if the video cannot be found create a folder in the same folder as 'BEP'
 % called 'BEP_DATA'in 'BEP_DATA' create a folder 'input' (and also
 % 'output') input must contain DrDre.mp4, or the video which is the test video. 
-videoObj = VideoReader(inputVideoPath);    % test video 
+videoObj = VideoReader(videoPath);    % test video 
 
 % video meta data
 frameHeight = videoObj.Height;
@@ -65,5 +61,5 @@ faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMa
 %% Reconstruct Video frame
 reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu); 
 %% Plot relative error for each frame
-relativeErrorVar = relativeError(originalVideo, reconstructedVideo);
+relativeError = relativeError(originalVideo, reconstructedVideo);
 end %function end
