@@ -1,6 +1,9 @@
 clear;
 clc;
 
+% todo: create a understandible function of this file, or delete entire
+% file
+
 I = imread('vakantie-delft.jpg');
 [r,c,d] = size(I);
 p = 0.80; % hoeveel procent van de pixels je wil verwijderen

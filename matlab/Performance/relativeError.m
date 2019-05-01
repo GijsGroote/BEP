@@ -6,6 +6,9 @@ function [relativeError] = relativeError(originalVideo, reconstructedVideo)
 %originalVideo          the original video in struct uint-8 format
 %reconstructedVideo     the reconstructed video in struct uint-8 format
 
+%OUTPUT
+% TODO
+
 %initializing zero vectors for the error
 relativeError = zeros(length(originalVideo),1);
 relativeError_rgb = zeros(3,1);

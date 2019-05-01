@@ -2,10 +2,11 @@ function [faultyVideo] = VideoDestroyer(frameHeight, frameWidth, originalVideo, 
 % creates a video in which certain pixels are set to 0 (black) depending
 % on the selectionMatrix.
 
-%INPUT
-%path               the path where the original video can be found
-%selectionMatrix    a 1/0 matrix that determines what pixels are destroyed
-%numframes          the number of frames the video has
+% INPUT
+% todo
+
+% OUTPUT
+% todo
 
 % determining the number of pixels
 amount_of_pixels = frameHeight*frameWidth;

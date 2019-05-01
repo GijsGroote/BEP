@@ -1,4 +1,12 @@
 function [faultyVideo] = VideoDestroyer(path, selectionMatrix)
+% what does the function do? 
+
+% INPUT
+% todo
+
+% OUTPUT
+% todo
+
 v = VideoReader(path);
 
 vidHeight = v.Height;

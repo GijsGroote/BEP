@@ -17,10 +17,7 @@ addpath('./Performance');
 
 
 %% import video
-% if the video cannot be found create a folder in the same folder as 'BEP'
-% called 'BEP_DATA'. in 'BEP_DATA' create a folder 'input' (and also
-% 'output') input must contain DrDre.mp4, or the video which is the test video. 
-videoObj = VideoReader('../../BEP_DATA/input/DrDre.mp4');    % test video 
+videoObj = VideoReader('../../BEP_DATA/input/DrDre.mp4');
 
 % video meta data
 frameHeight = videoObj.Height;
@@ -38,7 +35,7 @@ end
 firstFrame = originalVideo(1).frame;
 
 %% create selection matrix
-selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "2");
+selectionMatrix = selectionMatrix(frameHeight, frameWidth,  numFrames, 0.9, "random_different");
 
 %% Remove pixels from frames
 faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrix, numFrames);

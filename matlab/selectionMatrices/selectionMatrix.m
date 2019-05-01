@@ -1,7 +1,13 @@
 function [selectionMatrix] = selectionMatrix(frameHeight,frameWidth,numFrames,percentage,type)
 %   Generating a selection matrix
 
- % calculate the amount of pixels in a frame
+% INPUT
+% todo
+
+% OUTPUT
+% todo
+
+% calculate the amount of pixels in a frame
  amount_of_pixels = frameHeight*frameWidth;
 
 %% Create a random selection matrix that stays the same throughout all frames 
