@@ -69,7 +69,7 @@ for i = 2:3
 %     % Compute Kalman gain factor:
 %     K = s.P(:,:,i)*s.H'/(s.H*s.P(:,:,i)*s.H'+s.R);
 %     
-%     % Correction based on observation:
+%     % Correction based on observation:git 
 %     s.x(:,:,i) = s.x(:,:,i) + K*(s.z-s.H*s.x(:,:,i));
 %     s.P(:,:,i) = s.P(:,:,i) - K*s.H*s.P(:,:,i);
          
