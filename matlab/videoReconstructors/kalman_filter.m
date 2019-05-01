@@ -22,7 +22,7 @@ function [processed_frame] = kalman_filter (s,frameWidth, frameHeight)
 
 % if ~isfield(s,'x'); error('State matrix missing (x)'); end
 % if ~isfield(s,'P'); error('Proces covariance matrix missing (P)'); end
-% if ~isfield(s,'z'); error('Observation vector missing (z)'); end
+% if ~isfield(s,'z'); error('Observation vector missing (z)'); end 
 % if ~isfield(s,'u'); error('Control variable matrix (u)'); end
 % if ~isfield(s,'A'); error('Adaptation matrix (A) is missing'); end
 % if ~isfield(s,'B'); error('Adaptation matrix (B) is missing'); end
