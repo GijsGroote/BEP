@@ -39,10 +39,8 @@ addpath('./Performance');
 
 
 %% import video
-% if the video cannot be found create a folder in the same folder as 'BEP'
-% called 'BEP_DATA'in 'BEP_DATA' create a folder 'input' (and also
-% 'output') input must contain DrDre.mp4, or the video which is the test video. 
-videoObj = VideoReader(inputVideoPath);    % test video 
+videoObj = VideoReader(inputVideoPath);
+
 
 % video meta data
 frameHeight = videoObj.Height;
@@ -70,6 +68,7 @@ try
 catch
     warning('could not create a selectionMatrix')
 end
+
 %% Remove pixels from frames
 try
     faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrixVar, numFrames);
