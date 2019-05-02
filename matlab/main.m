@@ -63,7 +63,9 @@ selectionMatrixVar = selectionMatrix(frameHeight, frameWidth,  numFrames, percen
 faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrixVar, numFrames);
 
 %% Reconstruct Video frame
-reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu); 
+% reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu); 
+reconstructedVideo = stateSpace(firstFrame, faultyVideo, selectionMatrixVar);
 %% Plot relative error for each frame
-relativeErrorVar = relativeError(originalVideo, reconstructedVideo);
+relativeErrorVar = 1;
+% relativeErrorVar = relativeError(originalVideo, reconstructedVideo);
 end %function end
