@@ -3,41 +3,51 @@ function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, sele
 % square algorithm. 
 
 % INPUT
-% reconstructedFrame    is the first frame. 
-% faultyVideo           is the measured video, it has lost most of it data
-% selectionMatrix       is the matrix describing which pixels are not lost
-% lambda, mu            are the parameters to tweak the performance of the algorithm with
+% reconstructedFrame    the first frame
+% faultyVideo           the measured video with most data lost
+% selectionMatrix       the matrix describing which pixels are not lost
+% lambda, mu            the parameters to tweak the performance of the algorithm with
 
 % OUTPUT
-% reconstructedVideo    which is the reconstruction of the faultyVideo
+% reconstructedVideo    the reconstruction of the faultyVideo
 
-% constants
 %% setup
-k_end = length(faultyVideo);         % k_end should be the number of frames in the video
-[nRows,nColumns, dim] = size(faultyVideo(1).frame); 
-% nRows is number of rows, nColumns is number of Columns, used for
-% initializing the structs below
+% k_end is the number of frames in the video
+numFrames = length(faultyVideo);
 
-reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3, 'double'));   % Initializing the matrix reconstructedVideo,
-reconstructedVideo(1).frame = im2double(reconstructedFrame); %reconstructedFrame is a uint8 data type
-%reconstructedVideo(k).frame(:,:,rgb) --> k is framenumber, (:,:,rgb) is the matrix for red(rgb=1), green(2) or blue(3) 
+% nRows is number of rows
+% nColumns is number of Columns
+[nRows,nColumns, dim] = size(faultyVideo(1).frame); 
+
+% Initializing a zero struct reconstructedVideo using nRows and nColumns
+reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3, 'double'));   
+
+%reconstructedVideo(k).frame(:,:,rgb) --> k is framenumber, (:,:,rgb) is the matrix for red(rgb=1), green(2) or blue(3)
+%for the first frame, convert the reconstructedFrame uint8 to double
+reconstructedVideo(1).frame = im2double(reconstructedFrame);
+
 %% iterative SVR-LMS algorithm
-for k = 1:k_end % k goes through the frame, progressing through time
+%loop through every time frame
+for k = 1:numFrames 
     
-    %This makes the imported datatype uint8 to double so calculation can
+    % convert the imported datatype uint8 to double so calculation can
     %be made using svd()
     faultyVideo(k).frame = im2double(faultyVideo(k).frame);
     
     for rgb = 1 : 3 %3 times because RGB has 3 colours
-        % single value decomposition of reconstructedVideo
-        [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb),'econ'); % Singular value decomposition for every color (and frame)
+        % single value decomposition of reconstructedVideo for every
+        % colour (and frame)
+        [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb),'econ'); 
         %'econ' produces an economy-size decomposition of m-by-n matrix A. Only the first m columns of V are computed, and S is m-by-m
     
         % update next frame of reconstructedVideo
         reconstructedVideo(k+1).frame(:, :, rgb) = reconstructedVideo(k).frame(:, :, rgb) + mu * selectionMatrix(:, :, k).*(faultyVideo(k).frame(:, :, rgb) - reconstructedVideo(k).frame(:, :, rgb)) - mu*lambda*U*V';
     end
-    reconstructedVideo(k).frame = im2uint8(reconstructedVideo(k).frame); %convert the double datatype back to uint8
+    
+    %convert the double datatype back to uint8
+    reconstructedVideo(k).frame = im2uint8(reconstructedVideo(k).frame); 
 end
+
 end
 
 
