@@ -20,9 +20,7 @@ vectorLength = nRows * nColumns; % vectorlength when there is only one column
 
 state = struct('state', zeros(vectorLength, 1, 3, 'double')); % initializing the state vector
 
-% Kalman Filter Fields
-% System has p inputs, n state variables and m outputs
-
+% todo: the s.fields
 % x_j = state [n, 1]: reconstructed video, output from kalman filter
 % u_j = input [p, 1]: live input, is 0. We do not have live input
 % z_j = output [m, 1]: measured data, faulty video
@@ -31,13 +29,10 @@ state = struct('state', zeros(vectorLength, 1, 3, 'double')); % initializing the
                     % previous time step
 % B = inputGain [n,p]: Measurement error, for input which is 0
 % H_j = outputGain[m,n]: 
-% w_j = precessNoice[n, 1]:
-% Q = processNoiceCov[n, n]:
-% v_j = measurementNoice[m, 1]:
-% R = measurementNoiceCov[m, m]:
-% (P_j)^- = aPrioriCov[n, n]:
-% P_j = aPosterioriCov[n, n]:
-% K_j = kalmanFilterGain[n, m]:
+% w_j = precessNoice[n, 1]
+% Q = processNoiceCov[n, n]
+% v_j = measurementNoice[m, 1]
+% R = measurementNoic
 
 state(1).vector = reshape(reconstructedFrame, vectorLength, 1, 3); % reshape first frame to a vector
 %% loop over every frame
