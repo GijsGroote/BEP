@@ -1,4 +1,4 @@
-function [s] = kalman_filter_simplified (s,faultyVideo, frameWidth, frameHeight)
+function [s] = kalman_filter_simplified (s,faultyVideo, H, frameWidth, frameHeight)
 
 % Beware that I have not yet been able to test this function on a data set
 % representative of the one that will be used for the algorithm. 

@@ -15,10 +15,7 @@ function [result] = stateSpace(reconstructedFrame, faultyVideo, selectionMatrix)
 %% Setup
 k_end = length(faultyVideo);         % k_end should be the number of frames in the video
 [nRows, nColumns, dim] = size(faultyVideo(1).frame);
-
 vectorLength = nRows * nColumns; % vectorlength when there is only one column
-
-%state = struct('state', zeros(vectorLength, 1, 3, 'double')); % initializing the state vector
 
 % Kalman Filter Fields
 % System has p inputs, n state variables and m outputs
@@ -47,7 +44,9 @@ for k = k_end:-1:1
     % conditions)
     s(k).x = zeros(vectorLength, 1, 3);             %state vector
     %s(k).P = zeros(vectorLength, vectorLength);    %covariance matrix
+    
     %s(k).H = zeros(vectorLength, vectorLength);    %output gain matrix (C)
+    % H is time invariant, so mb not needed as struct
     %s(k).Q = zeros(vectorLength, vectorLength); %process noise covariance
     %s(k).R = zeros(vectorLength, vectorLength); %measurement noise cov
     %s(k).A = zeros(vectorLength, vectorLength);    %state gain
@@ -86,11 +85,15 @@ s(1).P = 1;
 %calculated by the Kalman filter.
 %s(1).Q = zeros(vectorLength, vectorLength);
 
+% H is a matrix that maps the state to the output. H (sometimes C in state
+% space equations) is as square matrix with size vectorLength x
+% vecorLength. H does not change with time
+%H = zeros(vectorLength, vectorLength);
 %% loop over every frame
 for k = 2:k_end 
     %state(k).state =  reshape(faultyVideo(k).frame, vectorLength, 1, 3); % reshape faulty video to vector
     %loop over 3 basis colors
-    s(k) = Kalman_filter_simplified(s(k-1), faultyVideo(k).frame, nColumns, nRows);
+    s(k) = Kalman_filter_simplified(s(k-1), faultyVideo(k).frame, H, nColumns, nRows);
 end
    for k=1:k_end
        result(k).frame = im2uint8(reshape(s(k).x, nRows, nColumns, 3));
