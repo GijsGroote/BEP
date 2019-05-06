@@ -54,7 +54,6 @@ processed_frame = zeros(frameWidth, frameHeight, 3);
 
 %loop for every color (r, g and b)
 for i = 1:3
-    i
     %     if isnan(s.x)
     %         % initialize state estimate from first observation
     %         if diff(size(s.H))
@@ -75,7 +74,7 @@ for i = 1:3
 %     
 %     % Compute Kalman gain factor:
 %     K = s.P(:,:,i)*s.H'/(s.H*s.P(:,:,i)*s.H'+s.R);
-     K = 1;
+     K = 0.5;
 %     
 %     % Correction based on observation:git 
 %     s.x(:,:,i) = s.x(:,:,i) + K*(s.z-s.H*s.x(:,:,i));
