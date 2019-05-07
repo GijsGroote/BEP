@@ -23,10 +23,10 @@ function [ reconstructedVideo, faultyVideo, selectionMatrixVar, relativeErrorVar
 %% add paths to file
 try
     %this adds the folder 1 up from BEP
-    mydir  = pwd; %current path (where this file is saved)
-    idcs   = strfind(mydir,filesep); %find the "\" folder seperator
-    newdir = mydir(1:idcs(end-1)-1); % go 2 folders up
-    inputVideoPath = strcat(newdir,'\BEP_DATA\input\',videoName); %path to the video
+    myDir  = pwd; %current path (where this file is saved)
+    idcs   = strfind(myDir,filesep); %find the "\" folder seperator
+    newDir = myDir(1:idcs(end-1)-1); % go 2 folders up
+    inputVideoPath = strcat(newDir,'\BEP_DATA\input\',videoName); %path to the video
     %addpath(strcat(newdir,'\BEP_DATA\observed')  %not needed (yet)
     %addpath(strcat(newdir,'\BEP_DATA\output')    %not needed (yet)
 

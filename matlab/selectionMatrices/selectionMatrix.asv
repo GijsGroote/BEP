@@ -72,12 +72,12 @@ end
 
 if type == "checkerPattern" || type == "4"
     
-    squareSize = 1; 
+    square_size = 1; 
     
     % create a standard matlab checkerboard matrix creates a 2*frameHeight
     % x 2*frameWidth matrix where half of the matrix contains 0.7 (gray)
     % and 0 (black) values and the other half contains 1 (white) and 0 (black) values.
-    checkerMatrix = checkerboard(squareSize,frameHeight, frameWidth);
+    checkerMatrix = checkerboard(square_size,frameHeight, frameWidth);
     
     % remove half of the rows and half of the columns to get a frameHeight x
     % frameWidth matrix with only 1 (white) and 0 (black) values.
@@ -93,3 +93,4 @@ if type == "checkerPattern" || type == "4"
 end
 
 end
+

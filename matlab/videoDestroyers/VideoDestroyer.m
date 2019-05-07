@@ -9,7 +9,7 @@ function [faultyVideo] = VideoDestroyer(frameHeight, frameWidth, originalVideo, 
 % todo
 
 % determining the number of pixels
-amount_of_pixels = frameHeight*frameWidth;
+amountOfPixels = frameHeight*frameWidth;
 
 %% creating the faulty video
 faultyVideo = struct('frame',zeros(frameHeight,frameWidth,3,'uint8')); %initializing a zero struct for faultyVideo
@@ -25,19 +25,18 @@ for k = 1:numFrames
     B = faultyVideo(k).frame(:,:,3);
    
     %initializing a zero's column vector to put the pixels of the video
-    empty_frame = uint8(zeros(amount_of_pixels,1,3));   
+    emptyFrame = uint8(zeros(amountOfPixels,1,3));   
     
     % find the positions of the ones in the matrix
-    J_indices = find(selectionMatrix(:,:,k));           %the ones will determine the pixels that will be saved
+    JIndices = find(selectionMatrix(:,:,k));           %the ones will determine the pixels that will be saved
     
     %for every colour the column vector is filled with the pixels
-    empty_frame(J_indices,:,1) = R(J_indices);          
-    empty_frame(J_indices,:,2) = G(J_indices);
-    empty_frame(J_indices,:,3) = B(J_indices);
+    emptyFrame(JIndices,:,1) = R(JIndices);          
+    emptyFrame(JIndices,:,2) = G(JIndices);
+    emptyFrame(JIndices,:,3) = B(JIndices);
     
     %reshape the column vectors to a frame of the original size
-    faultyVideo(k).frame = reshape(empty_frame,[frameHeight,frameWidth,3]); 
+    faultyVideo(k).frame = reshape(emptyFrame,[frameHeight,frameWidth,3]); 
 end
 
 end
-

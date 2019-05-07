@@ -17,10 +17,10 @@ numFrames = length(faultyVideo);
 
 % nRows is number of rows
 % nColumns is number of Columns
-[nRows,nColumns, dim] = size(faultyVideo(1).frame); 
+[numRows,numColumns, dim] = size(faultyVideo(1).frame); 
 
 % Initializing a zero struct reconstructedVideo using nRows and nColumns
-reconstructedVideo = struct('frame', zeros(nRows, nColumns, 3, 'double'));   
+reconstructedVideo = struct('frame', zeros(numRows, numColumns, 3, 'double'));   
 
 %reconstructedVideo(k).frame(:,:,rgb) --> k is framenumber, (:,:,rgb) is the matrix for red(rgb=1), green(2) or blue(3)
 %for the first frame, convert the reconstructedFrame uint8 to double
@@ -49,8 +49,3 @@ for k = 1:numFrames
 end
 
 end
-
-
-
-
-
