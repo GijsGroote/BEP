@@ -13,16 +13,17 @@ function [comparedPerformance] = comparator(originalVideo, reconstructedVideo, r
 
 %%
 %initializing zero vectors for the error
+numFrames=length(originalVideo);
 comparedPerformance = zeros(numFrames,2); % Can 'length(originalVideo)' be replaced by 'numFrames' as well?
 relativeErrorRGB = zeros(3,2); % this matrix will contain the errors per color and per reconstructed video (filtered and unfiltered)
 % the first column corresponds to the unfiltered video, the second one to the filtered video  
 
-numFrames=length(originalVideo);
 
 %loop through every time frame
 for k = 1 : numFrames
     
     %convert uint-8 to double for calculation
+    originalVideo(k).frame = im2double(originalVideo(k).frame);
     reconstructedVideo(k).frame = im2double(reconstructedVideo(k).frame);
     reconstructedFilteredVideo(k).frame = im2double(reconstructedFilteredVideo(k).frame);
     
