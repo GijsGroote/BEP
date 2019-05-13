@@ -46,7 +46,6 @@ hold on
 %setup the x-axis for the plot
 frames = linspace(1, numFrames, numFrames); 
 
-%plot the relative error for each frame 
-plot(frames(1,:), unfilteredPSNR);
-plot(frames(1,:), filteredPSNR);
+%plot the relative error for each frame
+plot(frames(1,:), relativeError(:,1));
 end
