@@ -8,13 +8,15 @@ classdef tensorNetworkAdditionTest < matlab.unittest.TestCase
     methods (Test)
         function testOnesWillBeTwos(testCase)
             % arrange
-            thisTN = struct('thisTN1', ones(4, 4, 'double'), 'thisTN2', ones(4, 4, 'double'));
-            thatTN = struct('thatTN1', ones(4, 4, 'double'), 'thatTN2', ones(4, 4, 'double'));
+            thisTN = struct('thisTN1', ones(2, 2, 'double'), 'thisTN2', zeros(2, 2, 'double'));
+            thatTN = struct('thatTN1', ones(2, 2, 'double'), 'thatTN2', zeros(2, 2, 'double'));
             
             % act
             actSolution = tensorNetworkAddition(thisTN, thatTN);
-            RealSolution = struct('thatTN1', 2.* ones(length(4),1), 'thatTN2', 2.* ones(length(4),1));
+            RealSolution = struct('thisTN1', [2 2 ; 2 2], 'thisTN2', zeros(2, 2, 'double'));
+            
             % assert
+            testCase.verifyEqual(actSolution, RealSolution);
         end    
     end
     
