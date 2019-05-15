@@ -2,13 +2,14 @@ function [reducedRankA reducedRankB] = rankReduction(P1, P2, W1, W2)
 % Reduce the rank of a matrix from 2 to 1
 % INPUT
 % --(P1)--  --(W1)--
-%    |         | 
+%    |         |
+%    |x1       |X2
 %    |         |
 % --(P2)--  --(W2)--
 % P1, P2 are tensor network representation of P (e.g. covariance)
 % W1, W2 are tensor network representation of W (e.g. noise)
-% P1 and W1 are of the same dimensions (n,n, x1)
-% P2 and W2 are of the same dimensions (m,m, x2)
+% P1 and W1 are of the same dimensions (n,n,..) 
+% P2 and W2 are of the same dimensions (m,m,...)
 % x1 and x2 are numbers that can differ
 % for covariance and noise x1=x2=1
 %
