@@ -7,6 +7,15 @@ function fh = testRankReduction
 fh = localfunctions;
 end
 
+function setup(testCase)
+    % no setup for now
+end
+
+function teardown(testCase)
+    % no teardown for now
+end
+
+
 function testOnesAndZeros(testCase)    
     % arrange
     p1 = [0 1 ; 1 0];
@@ -21,4 +30,7 @@ function testOnesAndZeros(testCase)
     % assert
     assertable.assertThat(actualSolution, IsEqualTo(expectedSolution));
 end
+
+
+
 

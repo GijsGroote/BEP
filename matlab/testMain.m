@@ -1,10 +1,13 @@
 %% main test file, this file calls the subtest files
 % run by executing commend:
 % tests = testMain;
+% run(tests);
 function tests = testMain
-import matlab.unittest.*;
-import matlab.unittest.qualifications.Assertable;
-tests = functiontests(localfunctions);
+% import matlab.unittest.*;
+% import matlab.unittest.qualifications.Assertable;
+tests = functiontests(testRankReduction);
+% functiontests(localfunctions) ;
+
 end
 
 function setup(testCase)
@@ -16,13 +19,13 @@ function teardown(testCase)
 end
 
 function testExample(testCase)
-    assertTrue(true);
+
+    assertTrue(testCase, true);
 end
 
 function testTensorTrain(testCase)
-addpath('./tensorTrain');
-fh = testRankReduction;
-run(fh{1});
+
+fh = testRankReduction
 
 end
 
