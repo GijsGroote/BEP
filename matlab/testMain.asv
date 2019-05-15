@@ -5,15 +5,16 @@
 function tests = testMain
 
 % testRankReduction
-RRTests = functiontests(testRankReduction);
+RRtests = functiontests(testRankReduction);
 
 % testTensorSum
-TSTests = functiontests(testTensorSum);
+TSTests = functiontests(testTensors);
+
 
 % local test which are in this file
 localTests = functiontests(localfunctions) ;
 
-tests = [localTests TSTests RRTests];
+tests = [localTests RRtests];
 end
 
 function setup(testCase)
