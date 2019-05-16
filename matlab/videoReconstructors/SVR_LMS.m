@@ -1,4 +1,4 @@
-function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, selectionMatrix, lambda, mu )
+function [ reconstructedVideo ] = SVR_LMS( reconstructedFrame, faultyVideo, selectionMatrix, lambda, mu, colours)
 % reconstruct a faulty video with the single value regularized least mean
 % square algorithm. 
 
@@ -20,7 +20,7 @@ numFrames = length(faultyVideo);
 [numRows,numColumns, dim] = size(faultyVideo(1).frame); 
 
 % Initializing a zero struct reconstructedVideo using nRows and nColumns
-reconstructedVideo = struct('frame', zeros(numRows, numColumns, 3, 'double'));   
+reconstructedVideo = struct('frame', zeros(numRows, numColumns, colours, 'double'));   
 
 %reconstructedVideo(k).frame(:,:,rgb) --> k is framenumber, (:,:,rgb) is the matrix for red(rgb=1), green(2) or blue(3)
 %for the first frame, convert the reconstructedFrame uint8 to double
@@ -34,10 +34,10 @@ for k = 1:numFrames
     %be made using svd()
     faultyVideo(k).frame = im2double(faultyVideo(k).frame);
     
-    for rgb = 1 : 3 %3 times because RGB has 3 colours
+    for rgb = 1 : colours %3 times because RGB has 3 colours or 1 if greyscale
         % single value decomposition of reconstructedVideo for every
         % colour (and frame)
-        [U,S,V] = svd(reconstructedVideo(k).frame(:, :, rgb),'econ'); 
+        [U,~,V] = svd(reconstructedVideo(k).frame(:, :, rgb),'econ'); 
         %'econ' produces an economy-size decomposition of m-by-n matrix A. Only the first m columns of V are computed, and S is m-by-m
     
         % update next frame of reconstructedVideo

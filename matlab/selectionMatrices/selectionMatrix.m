@@ -27,7 +27,7 @@ if type == "randomSame" || type == "1"
     uniqueIndices = randperm(amountOfPixels,round((amountOfPixels)*(1-percentage)));
     
     % create a 1 x m vector
-    R = sort(uniqueIndices);
+    R = uniqueIndices;
     
     % create a 3D matrix consisting of a copy of the selectionMatrixColumn with the positions of unique_indices set to 1   
     for k = 1:numFrames
@@ -56,7 +56,7 @@ if type == "randomDifferent" || type == "2"
        
        % find the positions of the ones in the selectionMatrix for every frame and create a
        % 1 x m x numFrames matrix
-       R(:,:,k) = sort(uniqueIndices);
+       R(:,:,k) = uniqueIndices;
     end
     
     % reshape the column matrix to a matrix in the size of the video

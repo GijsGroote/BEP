@@ -1,4 +1,4 @@
-function [ reconstructedVideoSVR, faultyVideo, selectionMatrixVar, relativeErrorVar, originalVideo, R, faultyVector] = main( videoName, percentage, destructionType, lambda, mu )
+function [ reconstructedVideoSVR, faultyVideo, selectionMatrixVar, relativeErrorVar, originalVideo] = main( videoName, percentage, destructionType, lambda, mu )
 %INPUT
 %videoPath          is the location of the video that is to be destroyed and
 %                   reconstructed, only takes the name+extenosion, has to be in the
@@ -59,7 +59,7 @@ try
 
  %% Define the first frame
     firstFrame = originalVideo(1).frame;
-    colours = size(originalVideo(1).frame,3);
+    colours = size(originalVideo(1).frame,3)
 catch
     warning('problem with putting the video into a struct')
 end
@@ -78,31 +78,25 @@ catch
     %faultyVideo = 0;
 end
 %% Reconstruct Video frame
-%try
+try
 % choose to uncomment the SVR_LMS or stateSpace algorithm
 
- %reconstructedVideoSVR = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu, colours);
- reconstructedVideoSVR = 0;
- sigmaX = 2;
+ reconstructedVideoSVR = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu, colours);
      Xrank = 10; %to be determined by a function
-     for k=numFrames:-1:1
-         
-         X(k).X1 = zeros(frameHeight, 1, Xrank,'double');
-         X(k).X2 = zeros(frameWidth, 1, Xrank,'double');
-         
-         P(k).P1 = zeros(frameHeight, frameHeight, 'double');
-         P(k).P2 = zeros(frameWidth, frameWidth, 'double');
-     end
-     W.W1 = sigmaX*eye(frameHeight, frameHeight, 'double');
-     W.W2 = eye(frameWidth, frameWidth, 'double');
-     P(1).P1 = eye(frameHeight, frameHeight, 'double');
-     P(1).P2 = eye(frameWidth, frameWidth, 'double');
-     %for k = 1:(numFrames-1)
-         %[X(k+1), P(k+1)] = KalmanFilterTensorScript(X(k), P(k), W, faultyVector(k).frame(:,:,1), R);
-     %end
-% catch
-%     warning('could not reconstruct')
-% end
+ for k=numframes:-1:1
+ 
+     X(k).X1 = zeros(frameHeight, Xrank,'double');
+     X(k).X2 = zeros(frameWidth, Xrank,'double');
+     
+     P(k).P1 = zeros(frameHeight, frameHeight, 'double');
+     P(k).P2 = eye(frameWidth, frameWidth, 'double');
+ end
+ for k = 1:numframes
+ [X(k+1), P(k+1)] = KalmanFilterTesnorScript(X, P, W1, W2, faultyVector, R);
+ end
+catch
+    warning('could not reconstruct')
+end
 
 %% Plot relative error for each frame
 try
