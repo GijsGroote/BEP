@@ -1,4 +1,4 @@
-function [structVideo] = video2Struct(videoPath)
+function [structVideo] = video2Struct(videoPath,f)
 v = VideoReader(videoPath);
 
 %get video Width and Height in amount of pixels
@@ -10,12 +10,17 @@ vidHeight = v.Height; %video Height
 structVideo = struct('cdata',zeros(vidHeight,vidWidth,3,'uint8'),...
     'colormap',[]);
 
-%% Fill the mov structure with the imported frames
-
 k = 0;
-while hasFrame(v) %the amount of frames. Use hasFrame(v) to get all of the frames in the video
-    structVideo(k+1).cdata = readFrame(v);
-    k = k+1;
-end
+if f == 'all'
+    while hasFrame(v) %the amount of frames. Use hasFrame(v) to get all of the frames in the video
+        structVideo(k+1).cdata = readFrame(v);
+        k = k+1;
+    end
+else
+    while k < f %f are the amount of frames. Use hasFrame(v) to get all of the frames in the video
+        structVideo(k+1).cdata = readFrame(v);
+        k = k+1;
+    end
 end
 
+end
