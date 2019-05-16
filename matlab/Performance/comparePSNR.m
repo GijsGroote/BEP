@@ -14,10 +14,9 @@ function [PSNR] = comparePSNR(originalVideo, reconstructedVideo)
 %%
 numFrames=length(originalVideo);
 maxPixelValue=255; % max. pixel value for 8-bit numbers 
-MSE=zeros(1,2,numFrames); % the PSNR value is determined for every timestep; the first column is for the unfiltered video, the second one for the filtered video
+MSE=zeros(1,numFrames); % the PSNR value is determined for every timestep; the first column is for the unfiltered video, the second one for the filtered video
 
-unfilteredPSNR=zeros(1,numFrames); 
-filteredPSNR=zeros(1,numFrames); 
+PSNR=zeros(1,numFrames); 
 
 [m,n] = size(originalVideo(1).frame);
 %% Calculate Mean Squared Error (MSE)
@@ -25,27 +24,30 @@ for k=1:numFrames
    
     originalVideo(k).frame = im2double(originalVideo(k).frame);
     reconstructedVideo(k).frame = im2double(reconstructedVideo(k).frame);
-   
-    dif1=(reconstructedVideo(k).frame - originalVideo(k).frame).^2; %elementwise squared difference between the pixels of reconstructedVideo and originalVideo
-    MSE(:,1,k)=sum(dif1,'all'); % MSE for the reconstructedVideo
     
+    dif1=(reconstructedVideo(k).frame - originalVideo(k).frame).^2; %elementwise squared difference between the pixels of reconstructedVideo and originalVideo
+    
+    MSE(:,k)=sum(dif1(:)); % MSE for the reconstructedVideo
+    
+    % Calculcate PSNR    
+    PSNR(k) = 20 * log10(maxPixelValue) - 10 * log10(MSE(1,k));% / (m * n) binnen mse % the formula for the PSNR can be found on wikipedia
+
+end
     MSE=MSE/(n*m); % divide by number of pixels in a frame
     
-%% Calculcate PSNR
-    PSNR(k)=20*log10(maxPixelValue)-10*log10(MSE(1,1,k)); % the formula for the PSNR can be found on wikipedia
-end
+
 %% Plotting the results
 figure
-hold on
 
+hold on
 %setup the x-axis for the plot
 frames = linspace(1, numFrames, numFrames); 
 
 %plot the relative error for each frame 
 plot(frames, PSNR);
 
-title('Peak signal-to-noise ratio (PSNR) of reconstructed video data')
-xlabel('Frame number')
-ylabel('PSNR [dB]')
-legend('PSNR ')
+title('Peak signal-to-noise ratio (PSNR) of reconstructed video data');
+xlabel('Frame number');
+ylabel('PSNR [dB]');
+legend('PSNR');
 end
