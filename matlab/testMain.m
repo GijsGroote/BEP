@@ -3,6 +3,8 @@
 % tests = testMain;
 % run(tests);
 function tests = testMain
+% add path
+addpath('./tensorTrain');
 
 % testRankReduction
 RRTests = functiontests(testRankReduction);
