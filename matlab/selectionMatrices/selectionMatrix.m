@@ -1,11 +1,18 @@
-function [selectionMatrix] = selectionMatrix(frameHeight,frameWidth,numFrames,percentage,type)
-%   Generating a selection matrix
+function [selectionMatrix,R] = selectionMatrix(frameHeight,frameWidth,numFrames,percentage,type)
+%   Generate a selection matrix
 
 % INPUT
-% todo
+% frameHeight           Number of rows in the matrix 
+% frameWidth            Number of columns in the matrix
+% numFrames             Amount of frames in the video
+% percentage            The percentage that will be 'destroyed'
+% type                  The 'destroy' method
 
 % OUTPUT
-% todo
+% selectionMatrix       A 3D-matrix of ones and zeros in the size of the video
+                        % with the numFrames as a third dimension 
+% R                     A column vector with all the indices of the known
+                        % pixels
 
 % calculate the amount of pixels in a frame
  amountOfPixels = frameHeight*frameWidth;
@@ -18,6 +25,9 @@ if type == "randomSame" || type == "1"
     
     % (1-percentage)*amount_of_pixels positions are picked random, no position can be picked more than once
     uniqueIndices = randperm(amountOfPixels,round((amountOfPixels)*(1-percentage)));
+    
+    % create a 1 x m vector
+    R = sort(uniqueIndices);
     
     % create a 3D matrix consisting of a copy of the selectionMatrixColumn with the positions of unique_indices set to 1   
     for k = 1:numFrames
@@ -42,7 +52,11 @@ if type == "randomDifferent" || type == "2"
     % create a 3D matrix for which every frame, random (1-percentage)*amount_of_pixels positions are choosen and set to 1
     for k = 1:numFrames
        uniqueIndices = randperm(amountOfPixels,round((amountOfPixels)*(1-percentage)));
-       selectionMatrixColumn(uniqueIndices,:,k) = 1; 
+       selectionMatrixColumn(uniqueIndices,:,k) = 1;
+       
+       % find the positions of the ones in the selectionMatrix for every frame and create a
+       % 1 x m x numFrames matrix
+       R(:,:,k) = sort(uniqueIndices);
     end
     
     % reshape the column matrix to a matrix in the size of the video
@@ -62,7 +76,10 @@ if type == "stripesHorizontal" || type == "3"
     
     % reshape the matrix to the size of the frame
     selectionMatrix = reshape(selectionMatrix,[frameHeight,frameWidth,numFrames]);
-    
+   
+    % find the positions of the ones in the selectionMatrix and transpose
+    % it to a 1 x m vector
+    R = find(selectionMatrix(:,:,1))';
 end
 
 %% Create a selection matrix with a checker pattern. 
@@ -90,6 +107,9 @@ if type == "checkerPattern" || type == "4"
         selectionMatrix(:,:,k) = checkerMatrix;
     end
     
+    % find the positions of the ones in the selectionMatrix and transpose
+    % it to a 1 x m vector
+    R = find(selectionMatrix(:,:,1))';
 end
 
 end
