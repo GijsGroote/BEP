@@ -96,7 +96,7 @@ try
 %    relativeErrorVar = relativeError(originalVideo, reconstructedVideo);
 
 catch
-    warining('could not compute the relative error, setting it to 0')
+    warning('could not compute the relative error, setting it to 0')
     relativeErrorVar = 0;
 end
 
