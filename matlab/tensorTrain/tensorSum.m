@@ -29,26 +29,26 @@ function [sumA, sumB] = tensorSum(P1, P2, W1, W2,desiredRank)
 %of input with the third rank reduced to desiredRank
 
 % The size of the inputs is needed for reshaping
-n = size(P1,1);     %number of colums and rows of P1 (and W1)
-m = size(P2,1);     %number of colums and rows of P2 (and W2)
-PR = size(P1,3);    %lenght of 3rd dimension of P1 (and P2)
+[n1, n2, PR] = size(P1); % The size of the 1st tensor network
+[m1, m2, ~] = size(P2);  % The size of the 2nd tensor network
+
 WR = size(W1,3);    %lenght of 3rd dimension of W1 (and W2)
 %% Reshaping 3d to 2d
-P1a = reshape(P1, n^2, PR); %reshape P1 to column of length n^2 (PR colums side by side)
-W1a = reshape(W1, n^2, WR); %reshape W1 to column of length n^2 (WR colums side by side)
+P1a = reshape(P1, n1*n2, PR); %reshape P1 to column of length n1*n2 (PR colums side by side)
+W1a = reshape(W1, n1*n2, WR); %reshape W1 to column of length n1*n2 (WR colums side by side)
 
-P2a = reshape(P2, PR, m^2); %reshape P1 to row of length m^2 (PR rows side by side)
-W2a = reshape(W2, WR, m^2); %reshape P1 to row of length m^2 (WR rows side by side)
+P2a = reshape(P2, PR, m1*m2); %reshape P1 to row of length m1*m2 (PR rows side by side)
+W2a = reshape(W2, WR, m1*m2); %reshape P1 to row of length m1*m2 (WR rows side by side)
 
-columnMatrix = [P1a W1a];   %merge the columns --> (n^2 x 2)
-rowMatrix = [P2a; W2a];     %merge the rows --> (2 x m^2)
+columnMatrix = [P1a W1a];   %merge the columns 
+rowMatrix = [P2a; W2a];     %merge the rows 
 %% Sum of the tensor networks
 % nargin is the number of inputs, so if desiredRank (nargin = 4) is not specified, this
 % function just sums, without reducing rank
 if nargin == 4 
     %% Reshape into desired tensors
-    sumA = reshape(columnMatrix, n, n, PR+WR);  %reshape into desired form
-    sumB = reshape(rowMatrix, m, m, PR+WR);     %reshape into desired form
+    sumA = reshape(columnMatrix, n1, n2, PR+WR);  %reshape into desired form
+    sumB = reshape(rowMatrix, m1, m2, PR+WR);     %reshape into desired form
 else % If rankReduced is specified (nargin = 5 =/= 4). 
     %% Rank reduction using SVD
     % SVD is taken and then the largest value of S is saved
@@ -61,7 +61,7 @@ else % If rankReduced is specified (nargin = 5 =/= 4).
     S2 = S2(1:desiredRank,1:desiredRank);
     V2(:,(desiredRank+1):end) = [];
     %computing the tensor representation of the sum
-    sumA= reshape(U1*U2*S2, n, n, desiredRank);
-    sumB = reshape(V2, m, m, desiredRank);
+    sumA= reshape(U1*U2*S2, n1, n2, desiredRank);
+    sumB = reshape(V2, m1, m2, desiredRank);
 end
 end
