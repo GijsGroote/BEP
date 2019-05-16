@@ -79,7 +79,7 @@ end
 %% Reconstruct Video frame
 % choose to uncomment the SVR_LMS or stateSpace algorithm
 
-% reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu); 
+%reconstructedVideo = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu); 
 % reconstructedVideo = stateSpace(firstFrame, faultyVideo, selectionMatrixVar);
 %% Plot relative error for each frame
 try
@@ -90,9 +90,16 @@ catch
 end
 %% Plot relative error for each frame
 try
-    relativeErrorVar = relativeError(originalVideo, reconstructedVideo);
+
+    PSNR = comparePSNR(originalVideo, reconstructedVideo);
+
+%    relativeErrorVar = relativeError(originalVideo, reconstructedVideo);
+
 catch
     warining('could not compute the relative error, setting it to 0')
     relativeErrorVar = 0;
 end
+
+
+
 end %function end
