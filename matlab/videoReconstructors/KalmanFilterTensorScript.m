@@ -76,7 +76,7 @@ KSKT.KSKT2 = K.K2*(K.K2');
 t5(n) = toc;
 %P = P - K*S*K' - The new covariance matrix FUNCTION OUTPUT
 tic
-[P.P1, P.P2] = tensorSum(P.P1, P.P2, KSKT.KSKT1, KSKT.KSKT2, 1);
+[P.P1, P.P2] = tensorSum(P.P1, P.P2, KSKT.KSKT1, KSKT.KSKT2,1);
 t6(n) = toc;
 n
 t(n) = toc;

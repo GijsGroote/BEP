@@ -34,7 +34,7 @@ for k = 1:numFrames
         
         %     emptyFrame(JIndices,:,2) = G(JIndices);
         %     emptyFrame(JIndices,:,3) = B(JIndices);
-         faultyVector(k).frame(:,:,rgb) = im2double(R(JIndices));
+         faultyVector(k).frame(:,:,rgb) = double(R(JIndices));
     end
     %     %initializing a zero's column vector to put the pixels of the video
     %     emptyFrame = uint8(zeros(amountOfPixels,1,3));
