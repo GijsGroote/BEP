@@ -4,7 +4,7 @@
 %Xn is zonder rankreduction
 XnMatrix = tensor2Matrix(Xn.X1,Xn.X2); %Xn vector naar een kolomvector
 Xnind = find(XnMatrix); %zoeken naar waarden die niet 0 zijn
-XnMatrix(Xnind) %waarde die niet nul is weergeven
+XnMatrix(Xnind); %waarde die niet nul is weergeven
 [rn1, cn1, XnX1elements] = find(Xn.X1); %rn1 = R1 = 232, cn2 = 11
 [rn2, cn2, XnX2elements] = find(Xn.X2); %cn1 = R2 = 377, cn2 = 11
 %XnX1elements*XnX2elements = 61 = y

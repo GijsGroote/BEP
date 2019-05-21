@@ -1,4 +1,4 @@
-function [X,P, t,t1,t2,t3,t4,t5,t6,KSKT] = KalmanFilterTensorScript(X,P,W,y,R)
+function [X,P] = KalmanFilterTensorScript(X,P,W,y,R)
 
 %% TO DO
     % make a function of the file
@@ -46,39 +46,38 @@ Xrank = size(X.X1,3);
 %% Update step of Kalman filter
 
 for n = 1: length(R)
-    tic;
+%    tic;
 %CX is the estimation of what should be measured according to the
 %prediction, R1 and R2 are the indexes of the pixel that is currently measured
-tic;
+%tic;
 [CX, R1, R2] = CtimesX(R(n),X.X1,X.X2);
-t1(n) = toc;
+%t1(n) = toc;
 % v = y - C*X
-tic
+%tic
 v = y(n) - CX;         %v is a temporary variable (scalar)
-t2(n) = toc;
+%t2(n) = toc;
 % S = C*P*C'
-tic
+%tic
 S = P.P1(R1,R1)*P.P2(R2,R2);   %S is temporary variable (scalar)
-t3(n) = toc;
+%t3(n) = toc;
 %K = P*C'*1/S
-tic
+%tic
 K.K1 = P.P1(:,R1)*1/S; %K is a tensor network of two vectors
 K.K2 = P.P2(:,R2);     %K is the Kalman Gain 
-t4(n) = toc;
+%t4(n) = toc;
 % X = X+K*v - The new state FUNCTION OUTPUT
-tic
+%tic
 [X.X1, X.X2] = tensorSum(X.X1, X.X2, K.K1*v, K.K2,Xrank); 
-t5(n) = toc;
+%t5(n) = toc;
 % -K*S*K'
-tic;
+%tic;
 KSKT.KSKT1 = -1*K.K1*S*(K.K1'); %KSK is a tensor network of two 2d matrixes
 KSKT.KSKT2 = K.K2*(K.K2');
-t5(n) = toc;
+%t5(n) = toc;
 %P = P - K*S*K' - The new covariance matrix FUNCTION OUTPUT
-tic
+%tic
 [P.P1, P.P2] = tensorSum(P.P1, P.P2, KSKT.KSKT1, KSKT.KSKT2,1);
-t6(n) = toc;
-n
-t(n) = toc;
+%t6(n) = toc;
+%t(n) = toc;
 end
 end

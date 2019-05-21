@@ -83,8 +83,9 @@ end
 
  %reconstructedVideoSVR = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu, colours);
  reconstructedVideoSVR = 0;
- sigmaX = 2;
-     Xrank = 10; %to be determined by a function
+  sigmaP = 100;
+ sigmaW = 10;
+    Xrank = 10; %to be determined by a function
      for k=numFrames:-1:1
          
          X(k).X1 = zeros(frameHeight, 1, Xrank,'double');
@@ -93,13 +94,15 @@ end
          P(k).P1 = zeros(frameHeight, frameHeight, 'double');
          P(k).P2 = zeros(frameWidth, frameWidth, 'double');
      end
-     W.W1 = sigmaX*eye(frameHeight, frameHeight, 'double');
+     X(1).X1 = 128/Xrank*ones(frameHeight, 1, Xrank,'double');
+     X(1).X2 = ones(frameWidth, 1, Xrank,'double');
+     W.W1 = sigmaW*eye(frameHeight, frameHeight, 'double');
      W.W2 = eye(frameWidth, frameWidth, 'double');
-     P(1).P1 = eye(frameHeight, frameHeight, 'double');
+     P(1).P1 = sigmaP*eye(frameHeight, frameHeight, 'double');
      P(1).P2 = eye(frameWidth, frameWidth, 'double');
-     %for k = 1:(numFrames-1)
-         %[X(k+1), P(k+1)] = KalmanFilterTensorScript(X(k), P(k), W, faultyVector(k).frame(:,:,1), R);
-     %end
+     for k = 1:2
+         [X(k+1), P(k+1)] = KalmanFilterTensorScript(X(k), P(k), W, faultyVector(k).frame(:,:,1), R);
+     end
 % catch
 %     warning('could not reconstruct')
 % end
