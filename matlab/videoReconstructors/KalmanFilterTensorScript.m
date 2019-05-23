@@ -79,6 +79,5 @@ KSKT.KSKT2 = K.K2*(K.K2');
 [P.P1, P.P2] = tensorSum(P.P1, P.P2, KSKT.KSKT1, KSKT.KSKT2,1);
 %t6(n) = toc;
 %t(n) = toc;
-n
 end
 end

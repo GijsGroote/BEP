@@ -21,7 +21,7 @@ function [ reconstructedVideoSVR, faultyVideo, selectionMatrixVar, relativeError
 
 
 %% add paths to file
-try
+%try
     %this adds the folder 1 up from BEP
     myDir  = pwd; %current path (where this file is saved)
     idcs   = strfind(myDir,filesep); %find the "\" folder seperator
@@ -45,9 +45,9 @@ videoObj = VideoReader(inputVideoPath);
 % video meta data
 frameHeight = videoObj.Height;
 frameWidth = videoObj.Width;
-catch
+%catch
     warning('problem loading the video')
-end
+%end
 %% put the video into a struct
 try
     %originalVideo = struct('frame',zeros(frameHeight,frameWidth,3,'uint8'));
@@ -58,7 +58,7 @@ try
     end
 
  %% Define the first frame
-    firstFrame = originalVideo(1).frame;
+    %firstFrame = originalVideo(1).frame;
     colours = size(originalVideo(1).frame,3);
 catch
     warning('problem with putting the video into a struct')
@@ -77,6 +77,7 @@ catch
     %warning('could not destroy the video')
     %faultyVideo = 0;
 end
+firstFrame = faultyVideo(1).frame;
 %% Reconstruct Video frame
 %try
 % choose to uncomment the SVR_LMS or stateSpace algorithm

@@ -17,7 +17,7 @@
      W.W2 = eye(frameWidth, frameWidth, 'double');
      P(1).P1 = sigmaP*eye(frameHeight, frameHeight, 'double');
      P(1).P2 = eye(frameWidth, frameWidth, 'double');
-     for k = 1:2
+     for k = 1:210
          tic
          [X3(k+1), P(k+1)] = KalmanFilterTensorScript(X3(k), P(k), W, faultyVector(k).frame(:,:,1), R);
          X3Matrix(k+1).frame = reshape(tensor2Matrix(X3(k+1).X1,X3(k+1).X2),480,720);
@@ -29,5 +29,5 @@
          X3(k+1).X2 = permute(V,[1 3 2]);
          toc
      end
-     %save('C:\Users\Thijs\Documents\School\BEP_DATA\workspace\210frames_rank50')
+     save('C:\Users\Thijs\Documents\School\BEP_DATA\workspace\210frames_rank50_v2')
      
