@@ -17,7 +17,7 @@ numFrames = length(faultyVideo);
 
 % nRows is number of rows
 % nColumns is number of Columns
-[numRows,numColumns, dim] = size(faultyVideo(1).frame); 
+[numRows,numColumns, ~] = size(faultyVideo(1).frame); 
 
 % Initializing a zero struct reconstructedVideo using nRows and nColumns
 reconstructedVideo = struct('frame', zeros(numRows, numColumns, colours, 'double'));   

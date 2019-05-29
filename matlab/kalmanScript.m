@@ -2,7 +2,7 @@ sigmaP = 100;
 sigmaW = 5;
 Xrank = 50; %to be determined by a function
 [frameHeight, frameWidth, colours] = size(originalVideo(1).frame);
-numFrames = 80;
+numFrames = 90;
 for k=numFrames:-1:1
     
     X(k).X1 = zeros(frameHeight, 1, Xrank,'double');
