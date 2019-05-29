@@ -27,7 +27,7 @@ for k = 1:numFrames
     for rgb = 1 : colours
         %create a matrix for R, G and B colours
         %R(:,:,rgb) = faultyVideo(k).frame(:,:,rgb);
-              G = faultyVideo(k).frame(:,:,1);
+             G = faultyVideo(k).frame(:,:,1);
              G = faultyVideo(k).frame(:,:,2);
              B = faultyVideo(k).frame(:,:,3);
         

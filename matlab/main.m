@@ -82,8 +82,8 @@ firstFrame = faultyVideo(1).frame;
 %try
 % choose to uncomment the SVR_LMS or stateSpace algorithm
 
- reconstructedVideoSVR = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu, colours);
-%  reconstructedVideoSVR = 0;
+ %reconstructedVideoSVR = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu, colours);
+  reconstructedVideoSVR = 0;
 %   sigmaP = 100;
 %  sigmaW = 10;
 %     Xrank = 10; %to be determined by a function
