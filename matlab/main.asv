@@ -54,8 +54,7 @@ try
     end
     
     %% Define the first frame
-    colours = size(originalVideo(1).frame,3);
-    firstFrame = 128*ones(frameHeight, frameWidth, colours,'uint8');
+    firstFrame = originalVideo(1).frame;
 catch
     warning('problem with putting the video into a struct')
 end
@@ -65,7 +64,6 @@ try
 catch
     warning('could not create a selectionMatrix')
 end
-
 %% Remove pixels from frames
 % try
     faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrixVar, numFrames, colours);
@@ -80,7 +78,7 @@ end
 % choose to uncomment the SVR_LMS or stateSpace algorithm
 
 reconstructedVideoSVR = SVR_LMS(firstFrame, faultyVideo, selectionMatrixVar, lambda, mu, colours);
-%  sigmaP = 100;
+%   sigmaP = 100;
 %  sigmaW = 10;
 %     Xrank = 10; %to be determined by a function
 %      for k=numFrames:-1:1

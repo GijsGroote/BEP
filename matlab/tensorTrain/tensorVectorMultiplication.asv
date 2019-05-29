@@ -1,6 +1,0 @@
-function [Product1, Product2] = tensorVectorMultiplication(A1,A2,s,B1,B2)
-    nA1 = size(A1);
-    nA2 = size
-    
-end
-
