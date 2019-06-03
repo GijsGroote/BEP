@@ -1,4 +1,4 @@
-function [comparedPerformance] = comparator(originalVideo, reconstructedVideo, reconstructedFilteredVideo)
+function [comparedPerformance] = comparator(originalVideo, reconstructedVideoSVR, reconstructedVideoKF,colours)
 % this function compares the performance of algorithm 2 with the SVR-LMS + Kalman filter
 % algorithm
 
@@ -13,7 +13,7 @@ function [comparedPerformance] = comparator(originalVideo, reconstructedVideo, r
 
 %%
 %initializing zero vectors for the error
-numFrames=length(originalVideo);
+numFrames=length(reconstructedVideoKF);
 comparedPerformance = zeros(numFrames,2); 
 relativeErrorRGB = zeros(3,2); 
 % the matrix will contain the errors per color and per reconstructed video (filtered and unfiltered);
@@ -24,13 +24,13 @@ for k = 1 : numFrames
     
     %convert uint-8 to double for calculation
     originalVideo(k).frame = im2double(originalVideo(k).frame);
-    reconstructedVideo(k).frame = im2double(reconstructedVideo(k).frame);
-    reconstructedFilteredVideo(k).frame = im2double(reconstructedFilteredVideo(k).frame);
+    reconstructedVideoSVR(k).frame = im2double(reconstructedVideoSVR(k).frame);
+    reconstructedVideoKF(k).frame = im2double(reconstructedVideoKF(k).frame);
     
     %loop throug all colours, and calculate the relative error of the Frobenius norm
-    for rgb = 1:3 
-        relativeErrorRGB(rgb,1) = norm((reconstructedVideo(k).frame(:,:,rgb) - originalVideo(k).frame(:,:,rgb)),'fro')/norm(originalVideo(k).frame(:,:,rgb),'fro');
-        relativeErrorRGB(rgb,2) = norm((reconstructedFilteredVideo(k).frame(:,:,rgb) - originalVideo(k).frame(:,:,rgb)),'fro')/norm(originalVideo(k).frame(:,:,rgb),'fro');
+    for rgb = 1:colours 
+        relativeErrorRGB(rgb,1) = norm((reconstructedVideoSVR(k).frame(:,:,rgb) - originalVideo(k).frame(:,:,rgb)),'fro')/norm(originalVideo(k).frame(:,:,rgb),'fro');
+        relativeErrorRGB(rgb,2) = norm((reconstructedVideoKF(k).frame(:,:,rgb) - originalVideo(k).frame(:,:,rgb)),'fro')/norm(originalVideo(k).frame(:,:,rgb),'fro');
     end
     
  %take the mean of the relative error of the colours
@@ -45,11 +45,13 @@ frames = linspace(1, numFrames, numFrames);
 %plot the relative error for each frame
 figure
 hold on
-plot(frames(1,:), comparedPerformance(:,1),'bx'); % We have to make sure that the same color is used for the same algorithm, so comparing graphs is easy
-plot(frames(1,:), comparedPerformance(:,2),'gx');
-title('Performance of the algorithms')
-xlabel('Timestep')
-ylabel('Relative Frobenius error')
-legend('Reconstructed','Reconstructed & filtered')
+plot(frames(1,:), comparedPerformance(:,1),'b-')%,frames(1:numFrames/10:end,:), comparedPerformance(1:numFrames/10:end,1),'bo'); % We have to make sure that the same color is used for the same algorithm, so comparing graphs is easy
+plot(frames(1,:), comparedPerformance(:,2),'r-')%,frames(1:numFrames/10:end,:), comparedPerformance(1:numFrames/10:end,2),'r+');
+% plot(frames(1,1:10:end), comparedPerformance(1:10:end,1),'bo')
+% plot(frames(1,1:10:end), comparedPerformance(1:10:end,2),'rx')
+title('Relative error versus the time')
+xlabel('Time')
+ylabel('Relative error')
+legend('SVR-LMS','Kalman estimate')
 
 end
