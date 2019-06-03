@@ -12,7 +12,7 @@ function [PSNR] = comparePSNR(originalVideo, reconstructedVideo)
 % filteredPSNR                  the PSNR value for the reconstructedFilteredVideo
 
 %%
-numFrames=length(originalVideo);
+numFrames=length(reconstructedVideo);
 maxPixelValue=255; % max. pixel value for 8-bit numbers 
 MSE=zeros(1,numFrames); % the PSNR value is determined for every timestep; the first column is for the unfiltered video, the second one for the filtered video
 
@@ -37,17 +37,22 @@ end
     
 
 %% Plotting the results
-figure
+figure(1)
 
 hold on
 %setup the x-axis for the plot
 frames = linspace(1, numFrames, numFrames); 
 
 %plot the relative error for each frame 
-plot(frames, PSNR);
+plot(frames, PSNR,'r-');
+%plot(frames(1,1:10:end),PSNR(1,1:10:end),'rx');
 
 title('Peak signal-to-noise ratio (PSNR) of reconstructed video data');
-xlabel('Frame number');
+xlabel('Frame');
 ylabel('PSNR [dB]');
-legend('PSNR');
+% [~,objects] = legend('MyLegend');
+
+% %objects(2).LineStyle = '-';
+% objects(2).Marker = 'x';
+legend('SVR-LMS','Kalman estimate');
 end
