@@ -28,7 +28,7 @@ reconstructedVideo(1).frame = im2double(reconstructedFrame);
 
 %% iterative SVR-LMS algorithm
 %loop through every time frame
-for k = 1:numFrames 
+for k = 1:numFrames -1
     
     % convert the imported datatype uint8 to double so calculation can
     %be made using svd()

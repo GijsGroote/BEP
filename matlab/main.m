@@ -97,7 +97,7 @@ try
     sigmaP = 100;
     sigmaW = 5;
     Xrank = 50; 
-    numFrames = 1; %manual way to say how many frames should be caclulated
+    numFrames = 3; %manual way to say how many frames should be caclulated
     for k=numFrames:-1:1
         %X is the tensor network representation of the frame
         X(k).X1 = zeros(frameHeight, 1, Xrank,'double');
