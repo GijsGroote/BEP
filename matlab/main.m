@@ -14,7 +14,7 @@ function [ reconstructedVideoSVR, reconstructedVideoKF, faultyVideo, selectionMa
 %OUTPUT
 %reconstructedVideo     is a struct of the reconstructed video (uint-8)
 %faultyVideo            is a struct of the observed video
-%selectionMatrixVar     is a 3D matrix of ones and zeros (height by widthch
+%selectionMatrixVar     is a 3D matrix of ones and zeros (height by width
 %                       by frames)
 %relativeError          is a vector with the releative error of the Frobian
 %                       norm per frame
@@ -74,13 +74,12 @@ catch
 end
 
 %% Remove pixels from frames
-% try
+try
 faultyVideo = VideoDestroyer(frameHeight, frameWidth, originalVideo, selectionMatrixVar, numFrames, colours);
-% catch
-%     warning('could not destroy the video')
-%     faultyVideo = 0;
-%
-% end
+catch
+     warning('could not destroy the video')
+     faultyVideo = 0;
+end
 
 %% Reconstruct Video frame SVR-LMS
 try
@@ -90,7 +89,7 @@ catch
     reconstructedVideoSVR=0;
 end
 %% Kalman estimate
-%try
+try
     %initialisation for the kalman values
     sigmaP = 100;
     sigmaW = 5;
@@ -161,10 +160,10 @@ end
         %this the struct where the reconstructed video is stored
         reconstructedVideoKF(k).frame = uint8(permute(X(k).X1,[1 3 2])*permute(X(k).X2,[3 1 2]));
     end
-% catch
+catch
      warning('could not reconstruct using Kalman')
      reconstructedVideoKF(k).frame = 0;
-% end
+end
 %% Plot relative error for each frame
 try
     relativeErrorVar = relativeError(originalVideo, reconstructedVideoSVR);
