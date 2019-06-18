@@ -13,21 +13,18 @@ function [X,P] = KalmanFilterTensorScriptFast(X,P,W,y,R)
 %A priori estimate of the covariance matrix P
 [P.P1, P.P2] = tensorSum(P.P1, P.P2, W.W1, W.W2, 1);
 %% Update step of Kalman filter
+
 for n = 1: length(R)
 %CX is the estimation of what should be measured according to the
 %prediction, R1 and R2 are the indexes of the pixel that is currently measured
 [CX, R1, R2] = CtimesX(R(n),X.X1,X.X2);
-
 % v = y - C*X
 v = y(n) - CX;         %v is a temporary variable (scalar)
-
 % S = C*P*C'
 S = P.P1(R1,R1)*P.P2(R2,R2);   %S is temporary variable (scalar)
-
 %K = P*C'*1/S
 K.K1 = P.P1(:,R1)*1/S; %K is a tensor network of two vectors
 K.K2 = P.P2(:,R2);     %K is the Kalman Gain 
-
 % X = X+ceK*v - The new state FUNCTION OUTPUT
 [X.X1, X.X2] = tensorSum(X.X1, X.X2, K.K1*v, K.K2); 
 end
