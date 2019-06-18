@@ -1,4 +1,4 @@
-function [ reconstructedVideoSVR, reconstructedVideoKF, faultyVideo, selectionMatrixVar, relativeErrorVar, relativeErrorVarPSNR, originalVideo, timeFrame] = main( videoName, percentage, destructionType, lambda, mu )
+function [ reconstructedVideoSVR, reconstructedVideoKF, faultyVideo, selectionMatrixVar, relativeErrorVar, relativeErrorVarPSNR, originalVideo] = main( videoName, percentage, destructionType, lambda, mu )
 %INPUT
 %videoPath          is the location of the video that is to be destroyed and
 %                   reconstructed, only takes the name+extenosion, has to be in the
@@ -97,7 +97,7 @@ try
     sigmaP = 100;
     sigmaW = 5;
     Xrank = 50; 
-    numFrames = 3; %manual way to say how many frames should be caclulated
+    numFrames = 1; %manual way to say how many frames should be caclulated
     for k=numFrames:-1:1
         %X is the tensor network representation of the frame
         X(k).X1 = zeros(frameHeight, 1, Xrank,'double');
